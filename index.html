@@ -292,10 +292,9 @@
         }
         /* --- FIN CSS DE UBICACIÓN --- */
     </style>
-</head> 
+</head>
 <body class="text-white font-body overflow-x-hidden"> 
-   <audio id="background-audio" loop src="Invitacion/CRAZY IN LOVE _ DANCE CONCEPT _ RADIG BADALOV CHOREOGRAPHY.mp3" style="visibility:hidden; position:absolute;"></audio>
-
+    <audio id="background-audio" loop src="CRAZY IN LOVE _ DANCE CONCEPT _ RADIG BADALOV CHOREOGRAPHY.mp3" style="display: none;"></audio>
     <div id="particles-js"></div>
     
     <div class="content-wrapper">
@@ -303,7 +302,7 @@
             <div class="relative z-10">
                 <h2 class="text-4xl md:text-6xl font-title tracking-wider leading-tight" style="font-weight: 200; font-style: normal;">¡Te Invito a Celebrar! </h2>
                 <h1 class="font-title text-6xl md:text-8xl my-2" style="font-weight: 900;">
-                <span class="font-style: normal">Mis</span> <span class="font-style: normal">XV</span>
+                <span class="font-style: normal">Mis</span> <span class="carnival-yellow">XV</span>
                 </h1>
                 <p class="font-title text-7xl md:text-9xl carnival-yellow leading-none neon-pulse-yellow" style="font-weight: 900;">Maria Belen</p>
                 <p class="font-title text-5xl md:text-7xl carnival-pink neon-pulse-pink" style="font-weight: 700; font-style: normal;">Party Disco</p>
@@ -366,8 +365,8 @@
                     </svg>
 
                     <h3 class="font-bold text-2xl mb-2 text-white">Dress Code</h3>
-                    <p class="text-lg mb-1 text-gray-200">Mujeres: Coctel Brillante</p>
-                    <p class="text-lg mb-1 text-gray-200">Hombres: Full Black </p>
+                    <p class="text-lg mb-1 text-gray-200">Mujeres: Estilo Coctel Brillante</p>
+                    <p class="text-lg mb-1 text-gray-200">Hombres: Full Black</p>
                 </div>
 
             </div>
@@ -611,26 +610,33 @@
 
     </script>
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const audio = document.getElementById("background-audio");
+  const backgroundAudio = document.getElementById('background-audio');
+  let hasInteracted = false;
 
-        function playAudio() {
-            audio.play().then(() => {
-                console.log("Audio iniciado tras interacción del usuario");
-            }).catch(err => {
-                console.warn("No se pudo reproducir el audio automáticamente:", err);
-            });
-            document.removeEventListener("click", playAudio);
-            document.removeEventListener("mousemove", playAudio);
-            document.removeEventListener("touchstart", playAudio);
-        }
+  // Función para intentar reproducir el audio
+  function playBackgroundMusic() {
+    if (!hasInteracted) {
+      backgroundAudio.play().catch(err => {
+        console.log("Esperando interacción del usuario para iniciar el audio...");
+      });
+      hasInteracted = true;
+      document.body.removeEventListener('click', playBackgroundMusic);
+      document.body.removeEventListener('mousemove', playBackgroundMusic);
+      document.body.removeEventListener('touchstart', playBackgroundMusic);
+    }
+  }
 
-        // Detecta cualquier interacción inicial
-        document.addEventListener("click", playAudio);
-        document.addEventListener("mousemove", playAudio);
-        document.addEventListener("touchstart", playAudio);
+  // Intentar reproducir al cargar
+  window.addEventListener('load', () => {
+    backgroundAudio.play().then(() => {
+      hasInteracted = true;
+    }).catch(() => {
+      // Si el navegador bloquea el autoplay, esperar cualquier interacción
+      document.body.addEventListener('click', playBackgroundMusic);
+      document.body.addEventListener('mousemove', playBackgroundMusic);
+      document.body.addEventListener('touchstart', playBackgroundMusic);
     });
+  });
 </script>
-
 </body>
 </html>
