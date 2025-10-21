@@ -609,5 +609,27 @@
         });
 
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const audio = document.getElementById("background-audio");
+
+        function playAudio() {
+            audio.play().then(() => {
+                console.log("Audio iniciado tras interacción del usuario");
+            }).catch(err => {
+                console.warn("No se pudo reproducir el audio automáticamente:", err);
+            });
+            document.removeEventListener("click", playAudio);
+            document.removeEventListener("mousemove", playAudio);
+            document.removeEventListener("touchstart", playAudio);
+        }
+
+        // Detecta cualquier interacción inicial
+        document.addEventListener("click", playAudio);
+        document.addEventListener("mousemove", playAudio);
+        document.addEventListener("touchstart", playAudio);
+    });
+</script>
+
 </body>
 </html>
